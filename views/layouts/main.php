@@ -42,6 +42,7 @@ $this->registerCssFile("@web/css/custom.css", ['depends' => [\yii\bootstrap5\Boo
         'options' => ['class' => 'navbar-nav'],
         'items' => [
             ['label' => 'Student', 'url' => ['/stu/index']],
+            ['label' => 'Teacher', 'url' => ['/teachers/index']],
             ['label' => 'About', 'url' => ['/site/about']],
             ['label' => 'Contact', 'url' => ['/site/contact']],
             Yii::$app->user->isGuest
