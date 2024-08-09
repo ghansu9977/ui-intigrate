@@ -5,10 +5,12 @@ namespace app\controllers;
 use app\models\Students;
 use app\models\StudentsSearch;
 use yii\web\Controller;
+use yii\web\Response;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Yii;
 
 /**
  * StuController implements the CRUD actions for Students model.
@@ -137,10 +139,25 @@ class StuController extends Controller
     {
         return $this->render('dashboard');
     }
+    public function actionLogin()
+    {
+        $model = new \app\models\Users();
+
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->validate()) {
+                // form inputs are valid, do something here
+                return;
+            }
+        }
+
+        return $this->render('login', [
+            'model' => $model,
+        ]);
+    }
     public function actionExport()
     {   
         
-        $posts = Products::find()->all();
+        $posts = Students::find()->all();
 
         // Check if there are any posts
         if (empty($posts)) {
@@ -149,25 +166,49 @@ class StuController extends Controller
         }
         else{
             
-        $spreadsheet = new Spreadsheet();
-        $sheet = $spreadsheet->getActiveSheet();
-
-        // Fill data into the spreadsheet
-        $sheet->fromArray($data, NULL, 'A1');
-
-        $writer = new Xlsx($spreadsheet);
-        $fileName = 'ExportedFile.xlsx';
-        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename="' . $fileName . '"');
-        header('Cache-Control: max-age=0');
-        header('Cache-Control: max-age=1'); // If you're serving to IE over SSL, then the following may be needed
-        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
-        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // Always modified
-        header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
-        header('Pragma: public'); // HTTP/1.0
-
-        $writer->save('php://output');
-        exit;
+            $spreadsheet = new Spreadsheet();
+            $sheet = $spreadsheet->getActiveSheet();
+        
+            // Set header row
+            $sheet->setCellValue('A1', 'Sid');
+            $sheet->setCellValue('B1', 'First Name');
+            $sheet->setCellValue('C1', 'Last Name');
+            $sheet->setCellValue('D1', 'Dob');
+            $sheet->setCellValue('E1', 'Gender');
+        
+            // Add data rows
+            $row = 2;
+            foreach ($posts as $post) {
+                $sheet->setCellValue('A' . $row, $post->SID);
+                $sheet->setCellValue('B' . $row, $post->FirstName);
+                $sheet->setCellValue('C' . $row, $post->LastName);
+                $sheet->setCellValue('D' . $row, $post->DOB);
+                $sheet->setCellValue('E' . $row, $post->Gender);
+                $row++;
+            }
+        
+            // Create Excel file
+            $writer = new Xlsx($spreadsheet);
+            $filename = 'products.xlsx';
+        
+            // Start output buffering
+            ob_start();
+        
+            // Clear output buffer
+            if (ob_get_contents()) {
+                ob_end_clean();
+            }
+        
+            // Serve the file for download
+            Yii::$app->response->format = Response::FORMAT_RAW;
+            Yii::$app->response->getHeaders()->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            Yii::$app->response->getHeaders()->set('Content-Disposition', 'attachment; filename="' . $filename . '"');
+            Yii::$app->response->getHeaders()->set('Cache-Control', 'max-age=0');
+        
+            // Output the file
+            $writer->save('php://output');
+            Yii::$app->response->send();
+            exit;
         
     }
     }
