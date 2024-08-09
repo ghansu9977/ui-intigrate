@@ -1,0 +1,20 @@
+.dashboard-background {
+    background-image: url('../images/school-bg.jpg');
+    background-size: cover;        /* Ensure the image covers the entire container */
+    background-repeat: no-repeat;  /* Prevent repeating of the image */
+    background-position: center;   /* Center the image */
+    background-attachment: fixed;  /* Ensure the background stays fixed */
+    min-height: 100vh;             /* Ensure the background covers the entire viewport height */
+    width: 100%;                    /* Ensure full width */
+    position: relative;            /* Ensure relative positioning */
+    margin: 0;                     /* Remove any margin */
+    padding: 0;                    /* Remove any padding */
+}
+
+.dashboard-background .container {
+    background-color: rgba(255, 255, 255, 0.8); /* White with some transparency */
+    padding: 20px;
+    border-radius: 10px;
+    margin: 0 auto;                /* Center the container horizontally */
+    position: relative;            /* Ensure relative positioning */
+}
