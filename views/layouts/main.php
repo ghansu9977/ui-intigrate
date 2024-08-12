@@ -44,16 +44,17 @@ $this->registerCssFile("@web/css/custom.css", ['depends' => [\yii\bootstrap5\Boo
      // Check user authentication status and add appropriate items
      if (Yii::$app->user->isGuest) {
          $navItems[] = ['label' => 'Home', 'url' => ['/stu/dashboard']];
-         $navItems[] = ['label' => 'Login', 'url' => ['/site/login']];
+         $navItems[] = ['label' => 'Login', 'url' => ['/stu/login']];
+         $navItems[] = ['label' => 'SignUp', 'url' => ['/stu/signup']];
      } else {
          $navItems[] = ['label' => 'Student', 'url' => ['/stu/index']];
          $navItems[] = ['label' => 'Teacher', 'url' => ['/teachers/index']];
          $navItems[] = ['label' => 'About', 'url' => ['/site/about']];
          $navItems[] = ['label' => 'Contact', 'url' => ['/site/contact']];
          $navItems[] = '<li class="nav-item">'
-             . Html::beginForm(['/site/logout'])
+             . Html::beginForm(['/stu/logout'])
              . Html::submitButton(
-                 'Logout (' . Yii::$app->user->identity->username . ')',
+                 'Logout (' . Yii::$app->user->identity->user_name . ')',
                  ['class' => 'nav-link btn btn-link logout']
              )
              . Html::endForm()

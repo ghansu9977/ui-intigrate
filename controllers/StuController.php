@@ -155,7 +155,7 @@ class StuController extends Controller
         'model' => $model,
     ]);
 }
-
+    //login
     public function actionLogin()
     {
         $model = new LoginForm();
@@ -167,6 +167,13 @@ class StuController extends Controller
         return $this->render('login', [
             'model' => $model,
         ]);
+    }
+    // Logout
+    public function actionLogout()
+    {
+        Yii::$app->user->logout();
+
+        return $this->goHome();
     }
 
     public function actionExport()
