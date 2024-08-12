@@ -38,25 +38,34 @@ $this->registerCssFile("@web/css/custom.css", ['depends' => [\yii\bootstrap5\Boo
         'brandUrl' => ['/stu/dashboard'],
         'options' => ['class' => 'navbar-expand-md navbar-dark bg-dark fixed-top']
     ]);
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav'],
-        'items' => [
-            ['label' => 'Student', 'url' => ['/stu/index']],
-            ['label' => 'Teacher', 'url' => ['/teachers/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
-            Yii::$app->user->isGuest
-                ? ['label' => 'Login', 'url' => ['/stu/login']]
-                : '<li class="nav-item">'
-                    . Html::beginForm(['/site/logout'])
-                    . Html::submitButton(
-                        'Logout (' . Yii::$app->user->identity->username . ')',
-                        ['class' => 'nav-link btn btn-link logout']
-                    )
-                    . Html::endForm()
-                    . '</li>'
-        ]
-    ]);
+     // Initialize navigation items array
+     $navItems = [];
+
+     // Check user authentication status and add appropriate items
+     if (Yii::$app->user->isGuest) {
+         $navItems[] = ['label' => 'Home', 'url' => ['/stu/dashboard']];
+         $navItems[] = ['label' => 'Login', 'url' => ['/site/login']];
+     } else {
+         $navItems[] = ['label' => 'Student', 'url' => ['/stu/index']];
+         $navItems[] = ['label' => 'Teacher', 'url' => ['/teachers/index']];
+         $navItems[] = ['label' => 'About', 'url' => ['/site/about']];
+         $navItems[] = ['label' => 'Contact', 'url' => ['/site/contact']];
+         $navItems[] = '<li class="nav-item">'
+             . Html::beginForm(['/site/logout'])
+             . Html::submitButton(
+                 'Logout (' . Yii::$app->user->identity->username . ')',
+                 ['class' => 'nav-link btn btn-link logout']
+             )
+             . Html::endForm()
+             . '</li>';
+     }
+ 
+     // Render the navigation widget
+     echo Nav::widget([
+         'options' => ['class' => 'navbar-nav'],
+         'items' => $navItems,
+     ]);
+
     NavBar::end();
     ?>
 </header>

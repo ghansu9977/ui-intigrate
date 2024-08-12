@@ -12,14 +12,7 @@ use yii\grid\GridView;
 
 $this->title = 'Students';
 $this->params['breadcrumbs'][] = $this->title;
-// $this->registerJsFile('https://cdn.jsdelivr.net/npm/sweetalert2@11', ['depends' => [\yii\web\JqueryAsset::class]]);
-// $exportJs = <<<JS
-// $('#export-excel').on('click', function() {
-//     var url = 'site/export-excel';
-//     window.location.href = url;
-// });
-// JS;
-// $this->registerJs($exportJs);
+
 ?>
 <div class="students-index">
 

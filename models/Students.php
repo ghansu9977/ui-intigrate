@@ -29,6 +29,7 @@ class Students extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['FirstName','LastName','Gender','DOB'], 'required'],
             [['DOB'], 'safe'],
             [['FirstName', 'LastName'], 'string', 'max' => 50],
             [['Gender'], 'string', 'max' => 1],

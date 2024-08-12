@@ -4,21 +4,25 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /** @var yii\web\View $this */
-/** @var app\models\Users $model */
+/** @var app\models\LoginForm $model */
 /** @var ActiveForm $form */
+
+$this->title = 'Login';
 ?>
-<div class="stu-login">
+<div class="site-login">
+    <h1><?= Html::encode($this->title) ?></h1>
+
+    <p>Please fill out the following fields to login:</p>
 
     <?php $form = ActiveForm::begin(); ?>
 
-        <?= $form->field($model, 'user_name') ?>
-        <?= $form->field($model, 'user_email') ?>
-        <?= $form->field($model, 'password_hash') ?>
-        <?= $form->field($model, 'auth_key') ?>
-    
+        <?= $form->field($model, 'user_email')->textInput(['autofocus' => true]) ?>
+        <?= $form->field($model, 'password')->passwordInput() ?>
+
         <div class="form-group">
-            <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
+            <?= Html::submitButton('Login', ['class' => 'btn btn-primary']) ?>
         </div>
+
     <?php ActiveForm::end(); ?>
 
-</div><!-- stu-login -->
+</div>

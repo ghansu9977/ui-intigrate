@@ -3,7 +3,10 @@
 namespace app\controllers;
 
 use app\models\Students;
+use app\models\Users;
 use app\models\StudentsSearch;
+use app\models\SignupForm;
+use app\models\LoginForm;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\web\NotFoundHttpException;
@@ -75,7 +78,7 @@ class StuController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'SID' => $model->SID]);
+                return $this->redirect(['index']);
             }
         } else {
             $model->loadDefaultValues();
@@ -139,21 +142,33 @@ class StuController extends Controller
     {
         return $this->render('dashboard');
     }
+    public function actionSignup()
+{
+    $model = new SignupForm();
+
+    if ($model->load(Yii::$app->request->post()) && $model->signup()) {
+        Yii::$app->session->setFlash('success', 'Thank you for signing up. You can now login.');
+        return $this->redirect(['login']);
+    }
+
+    return $this->render('signup', [
+        'model' => $model,
+    ]);
+}
+
     public function actionLogin()
     {
-        $model = new \app\models\Users();
+        $model = new LoginForm();
 
-        if ($model->load(Yii::$app->request->post())) {
-            if ($model->validate()) {
-                // form inputs are valid, do something here
-                return;
-            }
+        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            return $this->goBack();
         }
 
         return $this->render('login', [
             'model' => $model,
         ]);
     }
+
     public function actionExport()
     {   
         
