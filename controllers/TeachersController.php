@@ -7,6 +7,7 @@ use app\models\TeachersSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use Yii;
 
 /**
  * TeachersController implements the CRUD actions for Teachers model.
@@ -36,6 +37,16 @@ class TeachersController extends Controller
      *
      * @return string
      */
+    public function beforeAction($action)
+    {
+        if (Yii::$app->user->isGuest) {
+            ob_get_clean(); // Clean any previous output
+            Yii::$app->response->redirect(['users/login']);
+            return false;
+        }
+
+        return parent::beforeAction($action);
+    }
     public function actionIndex()
     {
         $searchModel = new TeachersSearch();
@@ -131,4 +142,5 @@ class TeachersController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+    
 }

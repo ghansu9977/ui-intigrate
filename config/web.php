@@ -52,7 +52,7 @@ $config = [
         ],
     
     ],
-    'defaultRoute' =>'stu/dashboard',
+    'defaultRoute' =>'users/dashboard',
     'params' => $params,
 ];
 

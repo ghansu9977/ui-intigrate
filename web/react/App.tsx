@@ -4,9 +4,9 @@ import Calculator from './components/Calculator';
 
 const App: React.FC = () => {
   return (
-    <>
-    <Calculator/>
-    </>
+      <div>
+      <Calculator/>
+      </div>
   );
 };
 

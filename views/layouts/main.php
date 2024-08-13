@@ -35,7 +35,7 @@ $this->registerCssFile("@web/css/custom.css", ['depends' => [\yii\bootstrap5\Boo
     <?php
     NavBar::begin([
         'brandLabel' => Yii::$app->name,
-        'brandUrl' => ['/stu/dashboard'],
+        'brandUrl' => ['/users/dashboard'],
         'options' => ['class' => 'navbar-expand-md navbar-dark bg-dark fixed-top']
     ]);
      // Initialize navigation items array
@@ -43,16 +43,16 @@ $this->registerCssFile("@web/css/custom.css", ['depends' => [\yii\bootstrap5\Boo
 
      // Check user authentication status and add appropriate items
      if (Yii::$app->user->isGuest) {
-         $navItems[] = ['label' => 'Home', 'url' => ['/stu/dashboard']];
-         $navItems[] = ['label' => 'Login', 'url' => ['/stu/login']];
-         $navItems[] = ['label' => 'SignUp', 'url' => ['/stu/signup']];
+         $navItems[] = ['label' => 'Home', 'url' => ['/users/dashboard']];
+         $navItems[] = ['label' => 'Login', 'url' => ['/users/login']];
+         $navItems[] = ['label' => 'SignUp', 'url' => ['/users/signup']];
      } else {
          $navItems[] = ['label' => 'Student', 'url' => ['/stu/index']];
          $navItems[] = ['label' => 'Teacher', 'url' => ['/teachers/index']];
          $navItems[] = ['label' => 'Calculator', 'url' => ['/stu/calculator']];
          $navItems[] = ['label' => 'About', 'url' => ['/stu/about']];
          $navItems[] = '<li class="nav-item">'
-             . Html::beginForm(['/stu/logout'])
+             . Html::beginForm(['/users/logout'])
              . Html::submitButton(
                  'Logout (' . Yii::$app->user->identity->user_name . ')',
                  ['class' => 'nav-link btn btn-link logout']

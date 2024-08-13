@@ -43,6 +43,16 @@ class StuController extends Controller
      *
      * @return string
      */
+    public function beforeAction($action)
+    {
+        if (Yii::$app->user->isGuest) {
+            ob_get_clean(); // Clean any previous output
+            Yii::$app->response->redirect(['users/login']);
+            return false;
+        }
+
+        return parent::beforeAction($action);
+    }
     public function actionIndex()
     {
         $searchModel = new StudentsSearch();
@@ -138,44 +148,6 @@ class StuController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-    public function actionDashboard()
-    {
-        return $this->render('dashboard');
-    }
-    public function actionSignup()
-{
-    $model = new SignupForm();
-
-    if ($model->load(Yii::$app->request->post()) && $model->signup()) {
-        Yii::$app->session->setFlash('success', 'Thank you for signing up. You can now login.');
-        return $this->redirect(['login']);
-    }
-
-    return $this->render('signup', [
-        'model' => $model,
-    ]);
-}
-    //login
-    public function actionLogin()
-    {
-        $model = new LoginForm();
-
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        }
-
-        return $this->render('login', [
-            'model' => $model,
-        ]);
-    }
-    // Logout
-    public function actionLogout()
-    {
-        Yii::$app->user->logout();
-
-        return $this->goHome();
-    }
-
     public function actionExport()
     {   
         
@@ -242,4 +214,5 @@ class StuController extends Controller
     {
         return $this->render('calculator');
     }
+    
 }
