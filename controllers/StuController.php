@@ -234,4 +234,12 @@ class StuController extends Controller
         
     }
     }
+    public function actionAbout()
+    {
+        return $this->render('about');
+    }
+    public function actionCalculator()
+    {
+        return $this->render('calculator');
+    }
 }

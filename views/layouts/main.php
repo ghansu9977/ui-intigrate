@@ -49,8 +49,8 @@ $this->registerCssFile("@web/css/custom.css", ['depends' => [\yii\bootstrap5\Boo
      } else {
          $navItems[] = ['label' => 'Student', 'url' => ['/stu/index']];
          $navItems[] = ['label' => 'Teacher', 'url' => ['/teachers/index']];
-         $navItems[] = ['label' => 'About', 'url' => ['/site/about']];
-         $navItems[] = ['label' => 'Contact', 'url' => ['/site/contact']];
+         $navItems[] = ['label' => 'Calculator', 'url' => ['/stu/calculator']];
+         $navItems[] = ['label' => 'About', 'url' => ['/stu/about']];
          $navItems[] = '<li class="nav-item">'
              . Html::beginForm(['/stu/logout'])
              . Html::submitButton(

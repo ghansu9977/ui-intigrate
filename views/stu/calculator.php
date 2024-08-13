@@ -1,5 +1,5 @@
 <?php
-$this->title = 'My Yii2 Application';
+$this->title = 'Calculator';
 ?>
 
 <div id="root"></div>
