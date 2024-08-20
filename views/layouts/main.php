@@ -39,33 +39,46 @@ $this->registerCssFile("@web/css/custom.css", ['depends' => [\yii\bootstrap5\Boo
         'options' => ['class' => 'navbar-expand-md navbar-dark bg-dark fixed-top']
     ]);
      // Initialize navigation items array
-     $navItems = [];
+     // Left aligned items
+    $navItemsLeft = [];
 
-     // Check user authentication status and add appropriate items
-     if (Yii::$app->user->isGuest) {
-         $navItems[] = ['label' => 'Home', 'url' => ['/users/dashboard']];
-         $navItems[] = ['label' => 'Login', 'url' => ['/users/login']];
-         $navItems[] = ['label' => 'SignUp', 'url' => ['/users/signup']];
-     } else {
-         $navItems[] = ['label' => 'Student', 'url' => ['/stu/index']];
-         $navItems[] = ['label' => 'Teacher', 'url' => ['/teachers/index']];
-         $navItems[] = ['label' => 'Calculator', 'url' => ['/stu/calculator']];
-         $navItems[] = ['label' => 'About', 'url' => ['/stu/about']];
-         $navItems[] = '<li class="nav-item">'
-             . Html::beginForm(['/users/logout'])
-             . Html::submitButton(
-                 'Logout (' . Yii::$app->user->identity->user_name . ')',
-                 ['class' => 'nav-link btn btn-link logout']
-             )
-             . Html::endForm()
-             . '</li>';
-     }
- 
-     // Render the navigation widget
-     echo Nav::widget([
-         'options' => ['class' => 'navbar-nav'],
-         'items' => $navItems,
-     ]);
+    if (Yii::$app->user->isGuest) {
+        $navItemsLeft[] = ['label' => 'Home', 'url' => ['/users/dashboard']];
+    } else {
+        $navItemsLeft[] = ['label' => 'Teacher', 'url' => ['/teachers/index']];
+        $navItemsLeft[] = ['label' => 'Student', 'url' => ['/stu/index']];
+        $navItemsLeft[] = ['label' => 'Calculator', 'url' => ['/stu/calculator']];
+        $navItemsLeft[] = ['label' => 'About', 'url' => ['/stu/about']];
+    }
+
+    // Right aligned items
+    $navItemsRight = [];
+
+    if (Yii::$app->user->isGuest) {
+        $navItemsRight[] = ['label' => 'Login', 'url' => ['/users/login']];
+        $navItemsRight[] = ['label' => 'SignUp', 'url' => ['/users/signup']];
+    } else {
+        $navItemsRight[] = '<li class="nav-item">'
+            . Html::beginForm(['/users/logout'])
+            . Html::submitButton(
+                'Logout (' . Yii::$app->user->identity->user_name . ')',
+                ['class' => 'nav-link btn btn-link logout']
+            )
+            . Html::endForm()
+            . '</li>';
+    }
+
+    // Render left-aligned items
+    echo Nav::widget([
+        'options' => ['class' => 'navbar-nav'],
+        'items' => $navItemsLeft,
+    ]);
+
+    // Render right-aligned items
+    echo Nav::widget([
+        'options' => ['class' => 'navbar-nav ms-auto'], // Use ms-auto for Bootstrap 5 (ml-auto for older versions)
+        'items' => $navItemsRight,
+    ]);
 
     NavBar::end();
     ?>

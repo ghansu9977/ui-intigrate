@@ -17,7 +17,7 @@ $this->registerJsFile('@web/js/assets/index-CExuJH3d.js', ['type' => 'module']);
     <div class="contailner">
         <div class="container">
             <h1><?= $this->title ?></h1>
-            <p>Welcome to your dashboard!</p>
+            <p>Welcome to <?php echo Yii::$app->user->isGuest?"your dashboard!":Yii::$app->user->identity->user_name ?> </p>
             <!-- Dashboard content goes here -->
         </div>
 

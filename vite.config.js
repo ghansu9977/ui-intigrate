@@ -10,8 +10,12 @@ export default defineConfig({
     emptyOutDir: true,
   },
   server: {
-    watch: {
-      usePolling: true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8080', // Your backend API address
+        changeOrigin: true,
+        secure: false,
+      },
     },
   },
   resolve: {
