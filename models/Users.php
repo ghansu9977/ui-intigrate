@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use Firebase\JWT\JWT;
 
 /**
  * Users model
@@ -90,7 +91,22 @@ class Users extends ActiveRecord implements IdentityInterface
      */
     public function generateAuthKey()
     {
-        $this->auth_key = Yii::$app->security->generateRandomString();
+        $this->auth_key = Yii::$app->security->generateJwtToken();
+    }
+    public function generateJwtToken()
+    {
+        $key = Yii::$app->params['jwtSecretKey']; // Store this key securely
+        $payload = [
+            'iat' => time(), // Issued at
+            'exp' => time() + 3600, // Token expiration time
+            'sub' => $this->id, // User ID
+           
+        ];
+ 
+        $algorithm = 'HS256'; // Specify the algorithm to use
+ 
+        return JWT::encode($payload, $key, $algorithm);
+ 
     }
     
 }

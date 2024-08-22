@@ -36,7 +36,7 @@ $this->registerCssFile("@web/css/custom.css", ['depends' => [\yii\bootstrap5\Boo
     NavBar::begin([
         'brandLabel' => Yii::$app->name,
         'brandUrl' => ['/users/dashboard'],
-        'options' => ['class' => 'navbar-expand-md navbar-dark bg-dark fixed-top']
+        'options' => ['class' => 'navbar navbar-expand-lg navbar-dark bg-dark fixed-top']
     ]);
      // Initialize navigation items array
      // Left aligned items
@@ -47,7 +47,8 @@ $this->registerCssFile("@web/css/custom.css", ['depends' => [\yii\bootstrap5\Boo
     } else {
         $navItemsLeft[] = ['label' => 'Teacher', 'url' => ['/teachers/index']];
         $navItemsLeft[] = ['label' => 'Student', 'url' => ['/stu/index']];
-        $navItemsLeft[] = ['label' => 'Calculator', 'url' => ['/stu/calculator']];
+        $navItemsLeft[] = ['label' => 'React Students', 'url' => ['/stu/students']];
+        $navItemsLeft[] = ['label' => 'React Calculator', 'url' => ['/stu/calculator']];
         $navItemsLeft[] = ['label' => 'About', 'url' => ['/stu/about']];
     }
 
@@ -98,7 +99,6 @@ $this->registerCssFile("@web/css/custom.css", ['depends' => [\yii\bootstrap5\Boo
     <div class="container">
         <div class="row text-muted">
             <div class="col-md-6 text-center text-md-start">&copy; My Company <?= date('Y') ?></div>
-            <div class="col-md-6 text-center text-md-end"><?= Yii::powered() ?></div>
         </div>
     </div>
 </footer>

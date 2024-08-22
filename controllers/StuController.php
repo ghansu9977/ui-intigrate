@@ -25,17 +25,18 @@ class StuController extends Controller
      */
     public function behaviors()
     {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
-                ],
-            ]
-        );
+        return array_merge(parent::behaviors(), [
+            'corsFilter' => [
+            'class' => \yii\filters\Cors::class,
+            'cors' => [
+                'Origin' => ['http://localhost:5173'],
+                'Access-Control-Allow-Credentials' => true,
+                'Access-Control-Request-Method' => ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+                'Access-Control-Allow-Headers' => ['Authorization', 'Content-Type', 'X-Requested-With'],
+                'Access-Control-Allow-Origin' => true,
+            ],
+        ],
+        ]);
     }
 
     /**
@@ -213,6 +214,10 @@ class StuController extends Controller
     public function actionCalculator()
     {
         return $this->render('calculator');
+    }
+    public function actionStudents()
+    {
+        return $this->render('reactstudent');
     }
     
 }

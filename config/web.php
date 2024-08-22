@@ -48,6 +48,8 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'api/<action:\w+>' => 'api/<action>',
+                'POST api/create'=>'api/create',
             ],
         ],
     

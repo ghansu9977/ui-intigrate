@@ -33,16 +33,24 @@ class LoginForm extends Model
     }
 
     public function login()
-    {
-        if ($this->validate()) {
-            $user = $this->getUser();
-            if ($user && $user->validatePassword($this->password)) {
-                return Yii::$app->user->login($user); // Login without "remember me"
-            }
-        }
+{
+    if ($this->validate()) {
+        $user = $this->getUser();
+        if ($user && $user->validatePassword($this->password)) {
+            Yii::$app->user->login($user);
 
-        return false;
+            // Generate JWT token
+            $token = $user->generateJwtToken();
+
+            return [
+                'user' => $user,
+                'token' => $token
+            ];
+        }
     }
+
+    return false;
+}
 
     protected function getUser()
     {

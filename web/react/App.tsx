@@ -1,31 +1,22 @@
 // web/react/App.tsx
 import React from "react";
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import { Route, Routes, Link } from "react-router-dom";
 import Calculator from "./components/Calculator";
 import Students from "./components/Students";
+import Navbar from "./components/Navbar";
 
 const App: React.FC = () => {
   return (
-    <Router>
+    <div className="d-flex flex-column h-100">
+      <Navbar/>
       <div>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/calculator">Calculator</Link>
-            </li>
-            <li>
-              <Link to="/students">Students</Link>
-            </li>
-          </ul>
-        </nav>
-
         <Routes>
-          <Route path="/calculator" element={<Calculator />} />
-          <Route path="/students" element={<Students />} />
+          <Route path="/stu/calculator" element={<Calculator />} />
+          <Route path="/stu/students" element={<Students />} />
           <Route path="/" element={<h1>Welcome to the App!</h1>} />
         </Routes>
       </div>
-    </Router>
+    </div>
   );
 };
 
