@@ -1,17 +1,27 @@
-import { useEffect, useState, useContext } from "react";
-import StudentContext from "@/context/student/StudentContext";
+import React, { useEffect, useState } from "react";
+import { useStudent } from "@/context/student/StudentContext";
 
-const StudentsList = () => {
-  const context = useContext(StudentContext);
-  const { getStudent, students } = context;
+interface Student {
+  SID: number;
+  FirstName: string;
+  LastName: string;
+  DOB: string;
+  Gender: string;
+}
+
+interface StudentsListProps {
+  setEstudent: (student: Student | null) => void;
+}
+
+const StudentsList: React.FC<StudentsListProps> = ({ setEstudent }) => {
+  const { getStudent, students } = useStudent();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
   useEffect(() => {
     const fetchStudent = async () => {
       try {
         await getStudent();
-      } catch (error) {
+      } catch {
         setError("Failed to Fetch Students");
       } finally {
         setLoading(false);
@@ -20,13 +30,8 @@ const StudentsList = () => {
     fetchStudent();
   }, []);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="container">
@@ -35,7 +40,7 @@ const StudentsList = () => {
           <table className="table table-striped">
             <thead className="thead-dark">
               <tr>
-                <th scope="col">SID</th>
+                <th scope="col">#</th>
                 <th scope="col">First Name</th>
                 <th scope="col">Last Name</th>
                 <th scope="col">DOB</th>
@@ -50,10 +55,10 @@ const StudentsList = () => {
                   <td>{student.FirstName}</td>
                   <td>{student.LastName}</td>
                   <td>{student.DOB}</td>
-                  <td>{student.Gender==="M"?"Male":"Female"}</td>
+                  <td>{student.Gender === "M" ? "Male" : "Female"}</td>
                   <td className="text-center">
-                    <button className="btn btn-info me-3">View</button>
-                    <button className="btn btn-primary me-3">Edit</button>
+                    <button className="btn btn-info me-3" data-bs-toggle="modal" data-bs-target="#ViewModal" onClick={()=>setEstudent(student)}>View</button>
+                    <button className="btn btn-primary me-3" data-bs-toggle="modal" data-bs-target="#EditModal" onClick={()=>setEstudent(student)}>Edit</button>
                     <button className="btn btn-danger">Delete</button>
                   </td>
                 </tr>

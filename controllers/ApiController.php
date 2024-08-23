@@ -55,4 +55,23 @@ class ApiController extends Controller
             ];
         }
     }
+    public function actionDelete()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        // Extract the SID from the request body
+        $data = Yii::$app->request->getBodyParams();
+        $SID = $data['SID'] ?? null;
+
+        if ($SID === null) {
+            throw new BadRequestHttpException('SID is required');
+        }
+
+        $model = Students::findOne($SID);
+        if ($model !== null && $model->delete()) {
+            return ['status' => 'success'];
+        } else {
+            return ['status' => 'error', 'message' => 'Failed to delete student'];
+        }
+    }
 }

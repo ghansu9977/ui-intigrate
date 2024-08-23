@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 interface User{
   id: number,
   user_name: string,
@@ -9,7 +9,7 @@ const Navbar: React.FC = () => {
   const host = "http://localhost:8080"
   const userString = localStorage.getItem('user');
   const user: User | null = userString ? JSON.parse(userString) : null;
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const handleLogout = ()=>{
     // clear localStorage
     localStorage.removeItem('user');
@@ -59,8 +59,8 @@ return (
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/">
-                About
+              <Link className="nav-link" to="/stu/about">
+                React About
               </Link>
             </li>
             </ul>

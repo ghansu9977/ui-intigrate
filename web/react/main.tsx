@@ -1,19 +1,18 @@
-// web/react/main.tsx
 import React from "react";
-import ReactDOM from "react-dom/client"; // Use 'react-dom/client' for React 18
+import ReactDOM from "react-dom/client";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
-import StudentState from "./context/student/StudentState";
+import { StudentProvider } from "./context/student/StudentContext";
 
-const rootElement = document.getElementById("root");
-const root = ReactDOM.createRoot(rootElement!); // Create a root
+const rootElement = document.getElementById("root")!;
+const root = ReactDOM.createRoot(rootElement);
 
 root.render(
   <React.StrictMode>
-     <BrowserRouter>
-    <StudentState>
-      <App />
-    </StudentState>
+    <BrowserRouter>
+      <StudentProvider>
+        <App />
+      </StudentProvider>
     </BrowserRouter>
   </React.StrictMode>
 );
