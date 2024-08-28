@@ -2,14 +2,12 @@ import React, { useState } from "react";
 import StudentModal from "@/components/StudentModal";
 
 const AddStudent: React.FC = () => {
-  const [showModal, setShowModal] = useState(false);
-
   return (
     <>
-      <button type="button" className="btn btn-primary" onClick={() => setShowModal(true)}>
+      <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addStudentModal">
         Add Student
       </button>
-      {showModal && <StudentModal mode="add" onClose={() => setShowModal(false)} />}
+      <StudentModal id="addStudentModal" mode="add" />
     </>
   );
 };

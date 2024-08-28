@@ -24,12 +24,14 @@ class ApiController extends Controller
             ],
         ];
     }
+
     public function actionFetchall()
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $students = Students::find()->asArray()->all();
         return $students;
     }
+
     public function actionCreate()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
@@ -44,9 +46,37 @@ class ApiController extends Controller
         $model->attributes = $data;
 
         if ($model->validate() && $model->save()) {
+            return $model;
+        } else {
+            return [
+                'status' => 'error',
+                'errors' => $model->errors,
+            ];
+        }
+    }
+    
+    public function actionUpdate($SID)
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        // Find the student model by SID
+        $model = Students::findOne($SID);
+        if (!$model) {
+            return [
+                'status' => 'error',
+                'message' => 'Student not found',
+            ];
+        }
+
+        // Load data into model and validate
+        $data = Yii::$app->request->getBodyParams();
+        $model->attributes = $data;
+
+        if ($model->validate() && $model->save()) {
             return [
                 'status' => 'success',
-                'data' => $model,
+                'message' => 'Student updated successfully',
+                'student' => $model,
             ];
         } else {
             return [
@@ -55,23 +85,32 @@ class ApiController extends Controller
             ];
         }
     }
-    public function actionDelete()
+
+
+    public function actionDelete($SID)
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
-
-        // Extract the SID from the request body
-        $data = Yii::$app->request->getBodyParams();
-        $SID = $data['SID'] ?? null;
-
-        if ($SID === null) {
-            throw new BadRequestHttpException('SID is required');
-        }
-
+    
         $model = Students::findOne($SID);
-        if ($model !== null && $model->delete()) {
-            return ['status' => 'success'];
+    
+        if ($model === null) {
+            return [
+                'status' => 'error',
+                'message' => 'Student not found',
+            ];
+        }
+    
+        if ($model->delete()) {
+            return [
+                'status' => 'success',
+                'message' => 'Student deleted successfully',
+            ];
         } else {
-            return ['status' => 'error', 'message' => 'Failed to delete student'];
+            return [
+                'status' => 'error',
+                'message' => 'Failed to delete student',
+            ];
         }
     }
+    
 }

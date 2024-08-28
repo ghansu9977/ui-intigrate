@@ -9,7 +9,7 @@ import About from "./components/About";
 const App: React.FC = () => {
   return (
     <div className="d-flex flex-column h-100">
-      {/* <Navbar/> */}
+      <Navbar/>
       <div>
         <Routes>
           <Route path="/stu/calculator" element={<Calculator />} />

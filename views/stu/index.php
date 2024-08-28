@@ -14,6 +14,10 @@ $this->title = 'Students';
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
+<?php
+// Display CSRF Token after login
+//echo 'CSRF Token: ' . Yii::$app->request->csrfToken;
+?>
 <div class="students-index">
 
     <h1><?= Html::encode($this->title) ?></h1>

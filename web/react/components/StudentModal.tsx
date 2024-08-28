@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, useEffect } from "react";
+import React, { useState, ChangeEvent, useEffect, useRef } from "react";
 import { useStudent } from "@/context/student/StudentContext";
 
 export interface StudentForm {
@@ -10,19 +10,21 @@ export interface StudentForm {
 }
 
 interface StudentModalProps {
+  id: string;
   mode: "add" | "edit" | "view";
   studentData?: StudentForm; // Used for edit or view modes
-  onClose: () => void;
 }
 
-const StudentModal: React.FC<StudentModalProps> = ({ mode, studentData, onClose }) => {
+const StudentModal: React.FC<StudentModalProps> = ({ id, mode, studentData }) => {
   const { addStudent, updateStudent } = useStudent();
-  const [student, setStudent] = useState<any>({
+  const [student, setStudent] = useState<StudentForm>({
+    SID: 0,
     FirstName: "",
     LastName: "",
     DOB: "",
     Gender: "",
   });
+  const refClose=useRef<HTMLButtonElement>(null);
 
   // If editing or viewing, populate the form with the existing student data
   useEffect(() => {
@@ -41,20 +43,22 @@ const StudentModal: React.FC<StudentModalProps> = ({ mode, studentData, onClose 
     } else if (mode === "edit") {
       updateStudent(student);
     }
-    onClose();
+    if(refClose.current){
+      refClose.current.click();
+    }
   };
 
   return (
-    <div className="modal fade" id="StudentModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div className="modal fade" id={id} tabIndex={-1} aria-labelledby={`${id}Label`} aria-hidden="true">
       <div className="modal-dialog modal-lg">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title" id="exampleModalLabel">
+            <h5 className="modal-title" id={`${id}Label`}>
               {mode === "add" ? "Add Student" : mode === "edit" ? "Edit Student" : "Student Details"}
             </h5>
-            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={onClose}></button>
+            <button type="button" className="btn-close" ref={refClose} data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div className="modal-body">
+          <div className="modal-body mt-2">
             <form>
               <div className="form-group">
                 <div className="row">
@@ -121,12 +125,12 @@ const StudentModal: React.FC<StudentModalProps> = ({ mode, studentData, onClose 
               </div>
             </form>
           </div>
-          <div className="modal-footer">
-            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={onClose}>
+          <div className="modal-footer mt-3">
+            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
               Close
             </button>
             {mode !== "view" && (
-              <button type="button" className="btn btn-primary" onClick={handleClick}>
+              <button type="submit" className="btn btn-primary" onClick={handleClick}>
                 Save changes
               </button>
             )}

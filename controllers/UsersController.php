@@ -50,6 +50,7 @@ class UsersController extends Controller
     //login
     public function actionLogin()
     {
+        Yii::$app->user->logout();
         $model = new LoginForm();
 
         if ($model->load(Yii::$app->request->post()) && $loginData = $model->login()) {

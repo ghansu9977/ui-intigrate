@@ -27,17 +27,24 @@ class StuController extends Controller
     {
         return array_merge(parent::behaviors(), [
             'corsFilter' => [
-            'class' => \yii\filters\Cors::class,
-            'cors' => [
-                'Origin' => ['http://localhost:5173'],
-                'Access-Control-Allow-Credentials' => true,
-                'Access-Control-Request-Method' => ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-                'Access-Control-Allow-Headers' => ['Authorization', 'Content-Type', 'X-Requested-With'],
-                'Access-Control-Allow-Origin' => true,
+                'class' => \yii\filters\Cors::class,
+                'cors' => [
+                    'Origin' => ['http://localhost:5173'],
+                    'Access-Control-Allow-Credentials' => true,
+                    'Access-Control-Request-Method' => ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+                    'Access-Control-Allow-Headers' => ['Authorization', 'Content-Type', 'X-Requested-With'],
+                    'Access-Control-Allow-Origin' => true,
+                ],
             ],
-        ],
+            'verbs' => [
+                'class' => \yii\filters\VerbFilter::class,
+                'actions' => [
+                    'delete' => ['POST', 'DELETE'],
+                ],
+            ],
         ]);
     }
+
 
     /**
      * Lists all Students models.

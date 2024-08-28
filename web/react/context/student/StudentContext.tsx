@@ -16,6 +16,7 @@ interface StudentContextType {
   getStudent: () => Promise<void>;
   addStudent: (student: Student) => Promise<void>;
   updateStudent: (student: Student) => Promise<void>;
+  deleteStudent: (student: Student) => Promise<void>;
 }
 
 // Create the context with a default value
@@ -30,39 +31,6 @@ const useStudent = () => {
   return context;
 };
 
-// Provider component
-const StudentProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [students, setStudents] = useState<Student[]>([]);
+export { useStudent, StudentContextType, Student };
 
-  const host = "http://localhost:8080/";
-
-  const getStudent = async () => {
-    try {
-      const response = await axios.get<Student[]>(`${host}api/fetchall`);
-      setStudents(response.data);
-    } catch (error) {
-      console.error("Failed to fetch students", error);
-    }
-  };
-
-  const addStudent = async (student: Student) => {
-    try {
-      await axios.post(`${host}api/create`, student, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      await getStudent(); // Refresh student list
-    } catch (error) {
-      console.error("Failed to add student", error);    
-    }
-  };
-
-  return (
-    <StudentContext.Provider value={{ students, getStudent, addStudent }}>
-      {children}
-    </StudentContext.Provider>
-  );
-};
-
-export { StudentProvider, useStudent, StudentContextType, Student };
+export default StudentContext;

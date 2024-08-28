@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useStudent } from "@/context/student/StudentContext";
-
+import StudentModal, { StudentForm } from "@/components/StudentModal";
 interface Student {
   SID: number;
   FirstName: string;
@@ -9,12 +9,9 @@ interface Student {
   Gender: string;
 }
 
-interface StudentsListProps {
-  setEstudent: (student: Student | null) => void;
-}
-
-const StudentsList: React.FC<StudentsListProps> = ({ setEstudent }) => {
-  const { getStudent, students } = useStudent();
+const StudentsList: React.FC = () => {
+  const [editStudent, setEditStudent] = useState<StudentForm | null>(null);
+  const { getStudent,deleteStudent, students } = useStudent();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   useEffect(() => {
@@ -35,12 +32,16 @@ const StudentsList: React.FC<StudentsListProps> = ({ setEstudent }) => {
 
   return (
     <div className="container">
+      {/* editModal */}
+      {editStudent && <StudentModal id={`editStudentModal`} mode="edit" studentData={editStudent} />}
+      {/* viewModal */}
+      {editStudent && <StudentModal id={`viewStudentModal`} mode="view" studentData={editStudent} />}
       <div className="row justify-content-center">
         <div className="col-lg-12">
           <table className="table table-striped">
             <thead className="thead-dark">
               <tr>
-                <th scope="col">#</th>
+                <th scope="col">S.no</th>
                 <th scope="col">First Name</th>
                 <th scope="col">Last Name</th>
                 <th scope="col">DOB</th>
@@ -57,9 +58,9 @@ const StudentsList: React.FC<StudentsListProps> = ({ setEstudent }) => {
                   <td>{student.DOB}</td>
                   <td>{student.Gender === "M" ? "Male" : "Female"}</td>
                   <td className="text-center">
-                    <button className="btn btn-info me-3" data-bs-toggle="modal" data-bs-target="#ViewModal" onClick={()=>setEstudent(student)}>View</button>
-                    <button className="btn btn-primary me-3" data-bs-toggle="modal" data-bs-target="#EditModal" onClick={()=>setEstudent(student)}>Edit</button>
-                    <button className="btn btn-danger">Delete</button>
+                    <button type="button" className="btn btn-info me-3" data-bs-toggle="modal" onClick={()=>setEditStudent(student)} data-bs-target={`#viewStudentModal`}>View</button>
+                    <button type="button" className="btn btn-secondary me-3" data-bs-toggle="modal" onClick={()=>setEditStudent(student)} data-bs-target={`#editStudentModal`}>Edit</button>
+                    <button className="btn btn-danger" onClick={()=>deleteStudent(student)}>Delete</button>
                   </td>
                 </tr>
               ))}
