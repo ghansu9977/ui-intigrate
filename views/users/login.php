@@ -9,7 +9,7 @@ use yii\widgets\ActiveForm;
 
 $this->title = 'Login';
 ?>
-<div class="users-login">
+<div class="users-login shadow-lg p-4 mb-5 bg-white rounded container-fluid w-25 h-auto" style="margin-top: 80px; ">
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>Please fill out the following fields to login:</p>

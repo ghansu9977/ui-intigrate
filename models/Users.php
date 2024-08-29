@@ -29,6 +29,7 @@ class Users extends ActiveRecord implements IdentityInterface
             [['user_name', 'user_email', 'password', 'auth_key'], 'required'],
             ['user_email', 'email'],
             ['user_email', 'unique'],
+            [['auth_key'], 'string', 'max' => 255], // Ensure auth_key is a string with a max length
         ];
     }
 
@@ -75,7 +76,6 @@ class Users extends ActiveRecord implements IdentityInterface
         return Yii::$app->security->validatePassword($password, $this->password);
     }
 
-
     /**
      * Generates password hash from password and sets it to the model
      *
@@ -91,8 +91,12 @@ class Users extends ActiveRecord implements IdentityInterface
      */
     public function generateAuthKey()
     {
-        $this->auth_key = Yii::$app->security->generateJwtToken();
+        $this->auth_key = $this->generateJwtToken();
     }
+
+    /**
+     * Generates a JWT token for the user
+     */
     public function generateJwtToken()
     {
         $key = Yii::$app->params['jwtSecretKey']; // Store this key securely
@@ -100,13 +104,10 @@ class Users extends ActiveRecord implements IdentityInterface
             'iat' => time(), // Issued at
             'exp' => time() + 3600, // Token expiration time
             'sub' => $this->id, // User ID
-           
         ];
- 
+
         $algorithm = 'HS256'; // Specify the algorithm to use
- 
+
         return JWT::encode($payload, $key, $algorithm);
- 
     }
-    
 }

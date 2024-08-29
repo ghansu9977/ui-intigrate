@@ -9,7 +9,7 @@ use yii\widgets\ActiveForm;
 
 $this->title = 'Signup';
 ?>
-<div class="site-signup">
+<div class="site-signup shadow-lg p-4 mb-5 bg-white rounded container-fluid w-25 h-auto mt-3">
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>Please fill out the following fields to signup:</p>

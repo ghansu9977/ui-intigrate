@@ -35,25 +35,31 @@ $this->registerCssFile("@web/css/custom.css", ['depends' => [\yii\bootstrap5\Boo
 <header id="header">
     <?php
     NavBar::begin([
-        'brandLabel' => Yii::$app->name,
-        'brandUrl' => ['/users/dashboard'],
-        'options' => ['class' => 'navbar navbar-expand-lg navbar-dark bg-dark fixed-top']
+        'brandLabel' => 'Property', // Set the brand label to match your example
+        'brandUrl' => Yii::$app->homeUrl, // Adjust as needed
+        'options' => ['class' => 'navbar navbar-expand-lg navbar-light bg-light'], // Update classes to match your styling
     ]);
-     // Initialize navigation items array
-     // Left aligned items
+
+    // Initialize navigation items array
     $navItemsLeft = [];
 
     if (Yii::$app->user->isGuest) {
-        $navItemsLeft[] = ['label' => 'Home', 'url' => ['/users/dashboard']];
+        $navItemsLeft[] = ['label' => 'Home', 'url' => ['/']];
+        $navItemsLeft[] = ['label' => 'Properties', 'url' => ['/properties/index'], 'items' => [
+            ['label' => 'Add Property', 'url' => ['/properties/add']],
+            ['label' => 'View Property', 'url' => ['/properties/view']],
+        ]];
+        $navItemsLeft[] = ['label' => 'Services', 'url' => ['/site/services']];
+        $navItemsLeft[] = ['label' => 'Contact Us', 'url' => ['/site/contact']];
     } else {
         $navItemsLeft[] = ['label' => 'Teacher', 'url' => ['/teachers/index']];
-        $navItemsLeft[] = ['label' => 'Student', 'url' => ['/stu/index']];
-        $navItemsLeft[] = ['label' => 'React Students', 'url' => ['/stu/students']];
-        $navItemsLeft[] = ['label' => 'React Calculator', 'url' => ['/stu/calculator']];
-        $navItemsLeft[] = ['label' => 'About', 'url' => ['/stu/about']];
+        $navItemsLeft[] = ['label' => 'Student', 'url' => ['/students/index']];
+        $navItemsLeft[] = ['label' => 'React Students', 'url' => ['/students/react']];
+        $navItemsLeft[] = ['label' => 'React Calculator', 'url' => ['/students/calculator']];
+        $navItemsLeft[] = ['label' => 'About', 'url' => ['/site/about']];
+        $navItemsLeft[] = ['label' => 'Home', 'url' => ['/site/index']];
     }
 
-    // Right aligned items
     $navItemsRight = [];
 
     if (Yii::$app->user->isGuest) {
@@ -61,10 +67,10 @@ $this->registerCssFile("@web/css/custom.css", ['depends' => [\yii\bootstrap5\Boo
         $navItemsRight[] = ['label' => 'SignUp', 'url' => ['/users/signup']];
     } else {
         $navItemsRight[] = '<li class="nav-item">'
-            . Html::beginForm(['/users/logout'])
+            . Html::beginForm(['/site/logout'])
             . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->user_name . ')',
-                ['class' => 'nav-link btn btn-link logout']
+                'Logout (' . Yii::$app->user->identity->user_name . ')', // Change to username if user_name does not exist
+                ['class' => 'btn btn-link nav-link logout']
             )
             . Html::endForm()
             . '</li>';
@@ -72,13 +78,13 @@ $this->registerCssFile("@web/css/custom.css", ['depends' => [\yii\bootstrap5\Boo
 
     // Render left-aligned items
     echo Nav::widget([
-        'options' => ['class' => 'navbar-nav'],
+        'options' => ['class' => 'navbar-nav me-auto'],
         'items' => $navItemsLeft,
     ]);
 
     // Render right-aligned items
     echo Nav::widget([
-        'options' => ['class' => 'navbar-nav ms-auto'], // Use ms-auto for Bootstrap 5 (ml-auto for older versions)
+        'options' => ['class' => 'navbar-nav ms-auto'],
         'items' => $navItemsRight,
     ]);
 
@@ -87,7 +93,7 @@ $this->registerCssFile("@web/css/custom.css", ['depends' => [\yii\bootstrap5\Boo
 </header>
 
 <main id="main" class="flex-shrink-0" role="main">
-    <div class="container">
+    <div class="container-fluid p-0">
         <?php if (!empty($this->params['breadcrumbs'])): ?>
             <?= Breadcrumbs::widget(['links' => $this->params['breadcrumbs']]) ?>
         <?php endif ?>

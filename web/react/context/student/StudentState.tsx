@@ -22,7 +22,7 @@ const StudentState = (props: StudentStateProps) => {
   const [students, setStudents] = useState<Student[]>([]); // Default to an empty array
   
   // get All Students
-  const host = import.meta.env.VITE_LOCAL_BASE_URL;
+  const  host = import.meta.env.VITE_LOCAL_BASE_URL;
   const [csrfToken, setCsrfToken] = useState<string>("");
   // Fetch CSRF token when the component mounts
   useEffect(() => {
@@ -55,7 +55,7 @@ const StudentState = (props: StudentStateProps) => {
         {
           headers: {
             "Content-Type": "application/json",
-            "X-CSRF-Token": csrfToken,  // Include CSRF token here
+            "X-CSRF-Token": csrfToken, 
           },
         }
       );

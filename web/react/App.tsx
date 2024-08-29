@@ -5,6 +5,7 @@ import Calculator from "./components/Calculator";
 import Students from "./components/Students";
 import Navbar from "./components/Navbar";
 import About from "./components/About";
+import Home from "./components/Home";
 
 const App: React.FC = () => {
   return (
@@ -15,6 +16,7 @@ const App: React.FC = () => {
           <Route path="/stu/calculator" element={<Calculator />} />
           <Route path="/stu/students" element={<Students/>} />
           <Route path="/stu/about" element={<About/>} />
+          <Route path="/stu/home" element={<Home/>} />
         </Routes>
       </div>
     </div>

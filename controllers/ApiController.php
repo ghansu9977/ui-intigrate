@@ -24,7 +24,7 @@ class ApiController extends Controller
             ],
         ];
     }
-
+    
     public function actionFetchall()
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;

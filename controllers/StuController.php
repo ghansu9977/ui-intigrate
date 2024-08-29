@@ -226,5 +226,9 @@ class StuController extends Controller
     {
         return $this->render('reactstudent');
     }
+    public function actionHome()
+    {
+        return $this->render('home');
+    }
     
 }
